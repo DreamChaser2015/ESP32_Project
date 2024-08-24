@@ -19,6 +19,8 @@
 
 #include "lcd.h"
 #include "adc_button.h"
+#include "ws2812_led.h"
+#include "../mpu6050/mpu6050.h"
 
 void task_test(void * para)
 {
@@ -32,9 +34,9 @@ void task_test(void * para)
 
 void app_main(void)
 {
-    esp_err_t ret;
+    //esp_err_t ret;
 
-    spi_device_handle_t spi;
+    //spi_device_handle_t spi;
 
     //lcd_spi_init(&spi);
 
@@ -42,7 +44,12 @@ void app_main(void)
     //lcd_init(spi);
 
     // 按键检测任务
-    xTaskCreate(button_task, "button_task", 8000, NULL, 0, NULL);
+    xTaskCreate(button_task, "button_task", 4000, NULL, 0, NULL);
+
+    // LED任务
+    //xTaskCreate(led_task, "led_task", 4000, NULL, 0, NULL);
+
+    mpu6050_init();
 
     //Initialize the effect displayed
     //ret = pretty_effect_init();

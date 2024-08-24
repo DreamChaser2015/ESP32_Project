@@ -27,7 +27,7 @@
 
 #define READ_LEN                    256
 
-static adc_channel_t channel[1] = {ADC_CHANNEL_0};
+static adc_channel_t channel[1] = {ADC_CHANNEL_0};      // ADC1 channel 0 (GPIO1)
 
 static TaskHandle_t s_task_handle;
 static const char *TAG = "ADC BUTTON";
@@ -154,7 +154,7 @@ void button_task(void * para)
          */
         ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
 
-        char unit[] = EXAMPLE_ADC_UNIT_STR(EXAMPLE_ADC_UNIT);
+        //char unit[] = EXAMPLE_ADC_UNIT_STR(EXAMPLE_ADC_UNIT);
 
         while (1) {
     
@@ -165,7 +165,7 @@ void button_task(void * para)
                 sum = 0;
                 for (int i = 0; i < ret_num; i += SOC_ADC_DIGI_RESULT_BYTES) {
                     adc_digi_output_data_t *p = (adc_digi_output_data_t*)&result[i];
-                    uint32_t chan_num = EXAMPLE_ADC_GET_CHANNEL(p);
+                    //uint32_t chan_num = EXAMPLE_ADC_GET_CHANNEL(p);
                     data = EXAMPLE_ADC_GET_DATA(p);
                     /* Check the channel number validation, the data is invalid if the channel num exceed the maximum channel */
                     // if (chan_num < SOC_ADC_CHANNEL_NUM(EXAMPLE_ADC_UNIT)) {
