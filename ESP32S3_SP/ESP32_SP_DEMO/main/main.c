@@ -20,17 +20,9 @@
 #include "lcd.h"
 #include "adc_button.h"
 #include "ws2812_led.h"
-#include "../mpu6050/mpu6050.h"
+#include "test.h"
 
-void task_test(void * para)
-{
-    while (1)
-    {
-        ESP_LOGI("test", "test");
-
-        vTaskDelay(1000 / portTICK_PERIOD_MS);
-    }
-}
+extern void mpu6050_test(void * para);
 
 void app_main(void)
 {
@@ -44,12 +36,13 @@ void app_main(void)
     //lcd_init(spi);
 
     // 按键检测任务
-    xTaskCreate(button_task, "button_task", 4000, NULL, 0, NULL);
+    //xTaskCreate(button_task, "button_task", 4000, NULL, 0, NULL);
 
     // LED任务
     //xTaskCreate(led_task, "led_task", 4000, NULL, 0, NULL);
 
-    mpu6050_init();
+    // mpu6050
+    xTaskCreate(mpu6050_test, "mpu6050_task", 4000, NULL, 0, NULL);
 
     //Initialize the effect displayed
     //ret = pretty_effect_init();

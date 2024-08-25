@@ -9,13 +9,32 @@ dependencies:
       registry_url: https://components.espressif.com/
       type: service
     version: 1.0.5~2
+  espressif/mpu6050:
+    component_hash: d69219ccb141372b863c511749ffbeab28417ac71c205d7ed7030c308e1b6832
+    dependencies:
+    - name: idf
+      require: private
+      version: '>=4.0'
+    source:
+      registry_url: https://components.espressif.com/
+      type: service
+    version: 1.2.0
   idf:
     source:
       type: idf
     version: 5.3.0
+  lvgl/lvgl:
+    component_hash: 2a8f619b5c2b1c7ad116c33d43dae8989c76739068f406a7e8ba9221e1085f17
+    dependencies: []
+    source:
+      registry_url: https://components.espressif.com/
+      type: service
+    version: 9.1.0
 direct_dependencies:
 - espressif/esp_jpeg
+- espressif/mpu6050
 - idf
-manifest_hash: cf9c2d3d0c97ed370ff14c6bef95639d79af16a1121457e0760052e42c4bd649
+- lvgl/lvgl
+manifest_hash: 3554de2f0536a59b5a58b64addafd6283828ecb1daff33fcd5f3411ac980f7cc
 target: esp32s3
 version: 2.0.0

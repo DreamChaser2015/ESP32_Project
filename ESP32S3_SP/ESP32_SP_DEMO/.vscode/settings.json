@@ -21,7 +21,9 @@
         "inttypes.h": "c",
         "lcd.h": "c",
         "pretty_effect.h": "c",
-        "task.h": "c"
+        "task.h": "c",
+        "mpu6050.h": "c",
+        "test.h": "c"
     },
     "idf.gitPathWin": "C:\\Users\\dc\\.espressif\\tools\\idf-git\\2.39.2\\cmd\\git.exe"
 }

@@ -64,11 +64,57 @@ USB连接`内置USB`，调试时会用到。连接好后设备管理器会显示
 
 ## SD卡
 
+
+
+
+
 ## LVGL移植
+
+[ESP Component Registry (espressif.com)](https://components.espressif.com/)找到需要的lvgl组件，然后在vscode终端输入：
+
+```
+idf.py add-dependency "lvgl/lvgl^9.1.0"
+```
+
+
 
 ## MPU6050驱动移植
 
+```
+idf.py add-dependency "espressif/mpu6050^1.2.0"
+```
+
+出错分析：Brownout detector was triggered
+
+```
+I (204) app_init: ELF file SHA256:  f8247ce45...
+I (209) app_init: ESP-IDF:          v5.3
+I (214) efuse_init: Min chip rev:     v0.0
+I (219) efuse_init: Max chip rev:     v0.99 
+I (223) efuse_init: Chip rev:         v0.2
+I (228) heap_init: Initializing. RAM available for dynamic allocation:
+I (236) heap_init: At 3FC96BC8 len 00052B48 (330 KiB): RAM
+I (242) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM
+I (248) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM
+I (254) heap_init: At 600FE100 len 00001EE8 (7 KiB): RTCRAM
+I BOD: Brownout detector was triggered
+
+
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x3 (RTC_SW_SYS_RST),boot:0x2a (SPI_FAST_FLASH_BOOT)
+Saved PC:0x40375707
+```
+
+电源供电不足，换电源。
+
+
+
 ## Wifi + BLE
+
+
+
+
 
 ## LED WS2812
 
