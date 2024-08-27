@@ -5,6 +5,8 @@ set(srcs "pretty_effect.c"
     "adc_button.c"
     "ws2812_led.c"
     "mpu6050_test.c"
+    "sd_test_io.c"
+    "sdcard.c"
     )
 
 idf_component_register(SRCS ${srcs}

@@ -20,23 +20,25 @@
 #include "lcd.h"
 #include "adc_button.h"
 #include "ws2812_led.h"
-#include "test.h"
+#include "sdcard.h"
 
 extern void mpu6050_test(void * para);
 
 void app_main(void)
 {
-    //esp_err_t ret;
+    esp_err_t ret;
 
-    //spi_device_handle_t spi;
+    spi_device_handle_t spi;
 
-    //lcd_spi_init(&spi);
+    lcd_spi_init(&spi);
 
     //Initialize the LCD
-    //lcd_init(spi);
+    lcd_init(spi);
+
+    sdcard_test();
 
     // 按键检测任务
-    //xTaskCreate(button_task, "button_task", 4000, NULL, 0, NULL);
+    xTaskCreate(button_task, "button_task", 4000, NULL, 0, NULL);
 
     // LED任务
     //xTaskCreate(led_task, "led_task", 4000, NULL, 0, NULL);
