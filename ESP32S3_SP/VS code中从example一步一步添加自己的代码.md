@@ -2,9 +2,11 @@
 
 硬件使用酷世的ESP32S3_SP V2 development板，目标是以ESP-IDF的demo工程一步一步实现 development板上所有硬件的驱动。
 
-![](https://gitee.com/DreamChaser2015/drawbed/raw/master/ESP32/202404241507770.png)
+淘宝链接：[酷世DIY](https://item.taobao.com/item.htm?spm=a1z0d.6639537/202406.item.d667230365314.7aab74842aCL8O&id=667230365314&from=cart&pisk=fpPji0DcInxf_IzSjxQrF2_imxh_1o1F1FgT-Pd2Wjhxffa_JAdNnjks1unzgmzqMcG_5yHTbcz2o8qUJIPVnfRsifcOYM5FTq4msfeCPIWDmQ3sk1JtXfC1PT9GYM5F1tL-1isUQyvqG0gs2q3tBIQ5wVgK6qHxXai-52v9DlhOPzno7K3vHCnJy20HkviwRV6jmr_8LKPrbiG3k0OQr7gAOD1n2CQ3wqaSfrBM6CFSlxNwDdDiLxyT-vV4M1Oogyw-w4VNqIn_e2aZN5sDgccx-v2EFnQmuRUuBmVCfBiYi8NsaWIMTkZ42WlaMNJ7vAibeSHWWChrG8Z_CXKRrqyTrRn0OGOIDS47LAwcApqLzyPmE5sB2c2q-b3u_gAxf83O4SAEApnMCUMH14iFPa9MQTNbIXITrRSxH40jUa_WDRDxr4iFPa9MIx3ol275PneG.&sku_properties=-1:-14)
 
-## 基于ESP-IDF LCD模板新建工程
+IDF版本：5.3.0
+
+## 基于ESP-IDF LCD模板新建工程 
 
 USB连接`内置USB`，调试时会用到。连接好后设备管理器会显示两个usb设备：
 
@@ -64,17 +66,62 @@ USB连接`内置USB`，调试时会用到。连接好后设备管理器会显示
 
 ## SD卡
 
+> NOTE: 和LED WS2812引脚(GPIO38)冲突
+
+![Snipaste_2024-08-26_17-31-48](https://gitee.com/DreamChaser2015/drawbed/raw/master/ESP32/202408261749368.png)
+
+SDK配置：
+
+![Snipaste_2024-08-26_18-13-49](https://gitee.com/DreamChaser2015/drawbed/raw/master/ESP32/202408261814820.png)
+
+一直报`I BOD: Brownout detector was triggered`错误，更换电源芯片的电感，解决操作sdcard时，3.3v被拉低的问题。
 
 
 
+## LVGL 9.1移植
 
-## LVGL移植
+- [ESP Component Registry (espressif.com)](https://components.espressif.com/)找到移植好的esp32 lvgl组件，然后在vscode终端输入：
 
-[ESP Component Registry (espressif.com)](https://components.espressif.com/)找到需要的lvgl组件，然后在vscode终端输入：
+  ```
+  idf.py add-dependency "espressif/esp_lvgl_port^2.3.1"
+  ```
 
-```
-idf.py add-dependency "lvgl/lvgl^9.1.0"
-```
+  执行完指令之后，在main文件夹下的`idf_component.yml`会新增lvgl，编译时会自动拉取lvgl代码：
+
+  ```
+  dependencies:
+    espressif/esp_lvgl_port: "^2.3.1"
+    espressif/mpu6050: "^1.2.0"
+    idf: ">=5.3"
+  ```
+
+- 编译时会自动拉取esp_lvgl_port仓库
+
+- 将managed_components\espressif_esp_lvgl_port\test_apps\main\test.c拷贝到项目main文件夹下，并将其添加到main文件夹下的CMakeLists.txt中。
+
+- 修改spi对应引脚
+
+  ```
+  /* LCD pins */
+  #define EXAMPLE_LCD_GPIO_SCLK       (GPIO_NUM_21)
+  #define EXAMPLE_LCD_GPIO_MOSI       (GPIO_NUM_47)
+  #define EXAMPLE_LCD_GPIO_RST        (GPIO_NUM_NC)
+  #define EXAMPLE_LCD_GPIO_DC         (GPIO_NUM_45)
+  #define EXAMPLE_LCD_GPIO_CS         (GPIO_NUM_14)
+  #define EXAMPLE_LCD_GPIO_BL         (GPIO_NUM_48)
+  ```
+
+  
+
+- 重新编译
+
+TODO: 
+
+- 旋转屏幕时需要设置gap偏移才能正确显示
+- 重力感应屏幕旋转不太稳定
+- 按键旋转屏幕几次之后，屏幕不刷新了。具体反映为进度条不走了
+
+
 
 
 
@@ -110,13 +157,19 @@ Saved PC:0x40375707
 
 
 
-## Wifi + BLE
+## Wifi
+
+
+
+## BLE
 
 
 
 
 
 ## LED WS2812
+
+> NOTE: 用GPIO38 和sdcard引脚冲突
 
 
 

@@ -160,9 +160,9 @@ void sdcard_test(void)
     // On chips where the GPIOs used for SD card can be configured, set them in
     // the slot_config structure:
 #ifdef CONFIG_SOC_SDMMC_USE_GPIO_MATRIX
-    slot_config.clk = 39;
-    slot_config.cmd = 38;
-    slot_config.d0 = 40;
+    slot_config.clk = GPIO_NUM_39;
+    slot_config.cmd = GPIO_NUM_38;
+    slot_config.d0 = GPIO_NUM_40;
 #ifdef CONFIG_EXAMPLE_SDMMC_BUS_WIDTH_4
     slot_config.d1 = CONFIG_EXAMPLE_PIN_D1;
     slot_config.d2 = CONFIG_EXAMPLE_PIN_D2;

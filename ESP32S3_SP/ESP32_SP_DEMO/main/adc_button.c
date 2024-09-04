@@ -120,6 +120,8 @@ static uint16_t button_adc_range[4][5][2] = {
 
 const char * button_sting[] = {"up", "down", "left", "right", "push"};
 
+void button_cb(void);
+
 void button_task(void * para)
 {
     esp_err_t ret;
@@ -216,6 +218,8 @@ void button_task(void * para)
                     else if (button_value == 4)
                     {
                         ESP_LOGI(TAG, "PUSH");
+
+                        button_cb();
                     }
                     else if (button_value == 5)
                     {

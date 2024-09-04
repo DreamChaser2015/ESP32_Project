@@ -11,6 +11,9 @@
 #include "mpu6050.h"
 #include "esp_system.h"
 #include "esp_log.h"
+#include "lvgl.h"
+
+extern void lcd_set_rotation(lv_display_rotation_t rotation);
 
 #define I2C_MASTER_SCL_IO 5      /*!< gpio number for I2C master clock */
 #define I2C_MASTER_SDA_IO 4      /*!< gpio number for I2C master data  */
@@ -90,6 +93,9 @@ TEST_CASE("Sensor mpu6050 test", "[mpu6050][iot][sensor]")
     TEST_ASSERT_EQUAL(ESP_OK, ret);
 }
 
+float acce_y = 0;
+float acce_x = 0;
+
 void mpu6050_test(void * para)
 {
     esp_err_t ret;
@@ -105,21 +111,39 @@ void mpu6050_test(void * para)
 
     while (1)
     {
-        
-
         ret = mpu6050_get_acce(mpu6050, &acce);
         
         ESP_LOGI(TAG, "acce_x:%.2f, acce_y:%.2f, acce_z:%.2f\n", acce.acce_x, acce.acce_y, acce.acce_z);
 
-        ret = mpu6050_get_gyro(mpu6050, &gyro);
-        
-        ESP_LOGI(TAG, "gyro_x:%.2f, gyro_y:%.2f, gyro_z:%.2f\n", gyro.gyro_x, gyro.gyro_y, gyro.gyro_z);
+        acce_x = acce.acce_x;
+        acce_y = acce.acce_y;
 
-        ret = mpu6050_get_temp(mpu6050, &temp);
+        // ret = mpu6050_get_gyro(mpu6050, &gyro);
         
-        ESP_LOGI(TAG, "t:%.2f \n", temp.temp);
+        // ESP_LOGI(TAG, "gyro_x:%.2f, gyro_y:%.2f, gyro_z:%.2f\n", gyro.gyro_x, gyro.gyro_y, gyro.gyro_z);
 
-        vTaskDelay(1000 / portTICK_PERIOD_MS);
+        // ret = mpu6050_get_temp(mpu6050, &temp);
+        
+        // ESP_LOGI(TAG, "t:%.2f \n", temp.temp);
+
+        // vTaskDelay(200 / portTICK_PERIOD_MS);
+
+        // if (acce.acce_y > 0.5)
+        // {
+        //     lcd_set_rotation(LV_DISPLAY_ROTATION_270);
+        // }
+        // else if (acce.acce_y < -0.5)
+        // {
+        //     lcd_set_rotation(LV_DISPLAY_ROTATION_90);
+        // }
+        // else if (acce.acce_x > 0.5)
+        // {
+        //     lcd_set_rotation(LV_DISPLAY_ROTATION_0);
+        // }
+        // else if (acce.acce_x < -0.5)
+        // {
+        //     lcd_set_rotation(LV_DISPLAY_ROTATION_180);
+        // }
     }
     
 }
